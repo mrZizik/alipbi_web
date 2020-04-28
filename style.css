@@ -1,0 +1,29 @@
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { 
+    display: block;
+}
+
+.letter {
+  border: 2px solid black;
+  width: 150px;
+  height: 100px;
+  float: left;
+}
+
+/* For mobile phones: */
+.wrapper {
+  column-count: 1;
+}
+
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+  .wrapper {
+    column-count: 1;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  .wrapper {
+      column-count: 1;
+  }
+}
