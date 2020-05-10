@@ -23,15 +23,17 @@ function generateAlphabet() {
 function clickLetter(index) {
     audioContainer.src = "snd/b.mp3"
     $(".alphabetWrapper").hide()
-    $(".backButton").show()
     $("body").css('background', colors[index])
+    $(".singleLetterWrapper").append(`<img class="letterBackButton backButton" src="img/back.png" onclick="backClicked()"/>`)
     $(".singleLetterWrapper").append(getLetterHtmlPage(index))
+    $(".letterBackButton").show()
 }
 
 function backClicked() {
     $(".alphabetWrapper").show()
     $(".backButton").hide()
     $(".singleLetterWrapper").empty()
+    $(".infoWrapper").hide()
     $("body").css('background', '#fff')
 }
 
@@ -45,6 +47,12 @@ function rotateClicked() {
         generateAlphabet()
     }
     isImages = !isImages
+}
+
+function settingsClicked() {
+    $(".infoWrapper").css('background', '#70DB72ef')
+    $(".infoBackButton").show()
+    $(".infoWrapper").show()
 }
 
 const getLetterHtml = (index) => `<div class='letter' style="background: ${colors[index]}" onclick='clickLetter(${index})'><img class="image" src="img/thum_${capitalizeFirstLetter(symbols[index])}.png" /></br><h1 class="text" style="color: ${colors[index]}">${capitalizeFirstLetter(letters[index])}</h1></div>`;
