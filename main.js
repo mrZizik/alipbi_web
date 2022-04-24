@@ -62,3 +62,5 @@ const getLetterHtmlPage = (index) => `<div class="imageWrapper"><img class="full
 jQuery(document).ready(function(){
     generateAlphabet()
 })
+
+// CODELAB: Register service worker.
