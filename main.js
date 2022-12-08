@@ -326,7 +326,7 @@ const getLetterHtml = (index) =>
     colors[index]
   }" onclick='clickLetter(${index})'><img class="image" src="img/letters/thumb/thum_${
     capitalizeFirstLetter(symbols[index])
-  }.png" /></br><h1 class="text" style="color: ${colors[index]}">${
+  }.webp" /></br><h1 class="text" style="color: ${colors[index]}">${
     capitalizeFirstLetter(letters[index])
   }</h1></div>`;
 
