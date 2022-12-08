@@ -1,4 +1,4 @@
-const letters = [
+let letters = [
   "a",
   "б",
   "в",
@@ -45,7 +45,7 @@ const letters = [
   "я",
 ];
 
-const symbols = [
+let symbols = [
   "a",
   "b",
   "v",
@@ -92,7 +92,7 @@ const symbols = [
   "ya",
 ];
 
-const colors = [
+let colors = [
   "#7CD0FF",
   "#FF6F00",
   "#70DB72",
@@ -139,7 +139,7 @@ const colors = [
   "#AB47BC",
 ];
 
-const words = [
+let words = [
   "артанди",
   "беле",
   "ваша",
@@ -186,83 +186,9 @@ const words = [
   "яше",
 ];
 
-const sounds = [];
+let sounds = [];
 
 let isImages = true;
-let isMain = false;
-let currentLetterIndex = -1;
-
-let touchstartX = 0;
-let touchendX = 0;
-let touchstartY = 0;
-let touchendY = 0;
-let gestureStartTime = 0;
-let gestureEndTime = 0;
-
-function checkDirection() {
-  let diffX = touchendX - touchstartX;
-  let diffY = touchendY - touchstartY;
-
-  if (gestureEndTime - gestureStartTime < 500) {
-    if (Math.abs(diffX) < Math.abs(diffY)) {
-      if (diffY < 0) {
-        gestureUp();
-      }
-
-      if (diffY > 0) {
-        gestureDown();
-      }
-    }
-
-    if (Math.abs(diffY) < Math.abs(diffX)) {
-      if (diffX < 0) {
-        gestureLeft();
-      }
-
-      if (diffX > 0) {
-        gestureRight();
-      }
-    }
-  }
-}
-
-function gestureUp() {
-  if (!isMain) {
-    backClicked();
-  }
-}
-
-function gestureRight() {
-  if (isMain) {
-    rotateClicked();
-  } else {
-    if (currentLetterIndex != -1) {
-      if (currentLetterIndex > 0) {
-        clickLetter(currentLetterIndex - 1);
-      } else {
-        clickLetter(letters.length - 1);
-      }
-    } else {
-      backClicked();
-    }
-  }
-}
-
-function gestureLeft() {
-  if (isMain) {
-    rotateClicked();
-  } else {
-    if (currentLetterIndex != -1) {
-      if (currentLetterIndex >= 0) {
-        clickLetter(currentLetterIndex + 1);
-      } else {
-        clickLetter(0);
-      }
-    } else {
-      backClicked();
-    }
-  }
-}
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -274,39 +200,33 @@ function generateAlphabet() {
     sounds[i] = new Audio("snd/" + symbols[i] + ".mp3");
   }
 
+  console.log(sounds);
+  $(".alphabetWrapper").append(
+    `<div class='buttons'><div class="buttonWrapper" onclick="rotateClicked()"><img class="button" src="img/rotate.png" /></div><div class="buttonWrapper" onclick="settingsClicked()"><img class="button" src="img/settings.png" /></div></div>`,
+  );
+
   $(".outer").hide();
 }
 
 function clickLetter(index) {
-  $(".singleLetterWrapper").empty();
-
-  if (sounds[currentLetterIndex] != undefined) {
-    sounds[currentLetterIndex].pause();
-    sounds[currentLetterIndex].currentTime = 0;
-  }
+  alert(1);
   sounds[index].play();
   $(".alphabetWrapper").hide();
   $("body").css("background", colors[index]);
-  $(".singleLetter").append();
+  $(".singleLetterWrapper").append(
+    `<img class="letterBackButton backButton" src="img/back.png" onclick="backClicked()"/>`,
+  );
   $(".singleLetterWrapper").append(getLetterHtmlPage(index));
   $(".letterBackButton").show();
   $(".outer").show();
-  isMain = false;
-  currentLetterIndex = index;
 }
 
 function backClicked() {
-  if (sounds[currentLetterIndex] != undefined) {
-    sounds[currentLetterIndex].pause();
-    sounds[currentLetterIndex].currentTime = 0;
-  }
-  currentLetterIndex = -1;
   $(".alphabetWrapper").show();
   $(".backButton").hide();
-  $(".outer").hide();
   $(".singleLetterWrapper").empty();
+  $(".infoWrapper").hide();
   $("body").css("background", "#fff");
-  isMain = true;
 }
 
 function rotateClicked() {
@@ -321,6 +241,12 @@ function rotateClicked() {
   isImages = !isImages;
 }
 
+function settingsClicked() {
+  $(".infoWrapper").css("background", "#70DB72ef");
+  $(".infoBackButton").show();
+  $(".infoWrapper").show();
+}
+
 const getLetterHtml = (index) =>
   `<div class='letter' style="background: ${
     colors[index]
@@ -333,23 +259,11 @@ const getLetterHtml = (index) =>
 const getLetterHtmlPage = (index) =>
   `<div class="imageWrapper"><img class="fullImage" src="img/letters/${
     capitalizeFirstLetter(symbols[index])
-  }.webp" /></div><h1 class="fullLetter">${
+  }.png" /></div><h1 class="fullLetter">${
     capitalizeFirstLetter(letters[index])
   }</h1><h1 class="fullText">${capitalizeFirstLetter(words[index])}</h1>`;
-
-document.addEventListener("touchstart", (e) => {
-  touchstartX = e.changedTouches[0].screenX;
-  touchstartY = e.changedTouches[0].screenY;
-  gestureStartTime = Date.now();
-});
-
-document.addEventListener("touchend", (e) => {
-  touchendX = e.changedTouches[0].screenX;
-  touchendY = e.changedTouches[0].screenY;
-  gestureEndTime = Date.now();
-  checkDirection();
-});
 
 jQuery(document).ready(function () {
   generateAlphabet();
 });
+
