@@ -10,9 +10,9 @@ const FILES_TO_CACHE = [
 const CACHE_NAME = "static-cache-v2";
 
 self.addEventListener("install", (evt) => {
+  console.log("Service worker installed");
   evt.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log("Service worker installed");
       return cache.addAll(FILES_TO_CACHE);
     }),
   );
