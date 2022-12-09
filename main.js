@@ -200,17 +200,13 @@ let gestureStartTime = 0;
 let gestureEndTime = 0;
 
 function checkDirection() {
-  let diffX = touchendX - touchstartX;
-  let diffY = touchendY - touchstartY;
+  const diffX = touchendX - touchstartX;
+  const diffY = touchendY - touchstartY;
 
   if (gestureEndTime - gestureStartTime < 500) {
     if (Math.abs(diffX) < Math.abs(diffY)) {
       if (diffY < -60) {
         gestureUp();
-      }
-
-      if (diffY > 60) {
-        gestureDown();
       }
     }
 
@@ -276,7 +272,6 @@ function generateAlphabet() {
 
   $(".outer").hide();
 }
-
 function clickLetter(index) {
   $(".singleLetterWrapper").empty();
 
@@ -294,6 +289,14 @@ function clickLetter(index) {
   $(".backButton").show();
   isMain = false;
   currentLetterIndex = index;
+}
+
+function imageClick() {
+  if (sounds[currentLetterIndex] != undefined) {
+    sounds[currentLetterIndex].pause();
+    sounds[currentLetterIndex].currentTime = 0;
+  }
+  sounds[currentLetterIndex].play();
 }
 
 function backClicked() {

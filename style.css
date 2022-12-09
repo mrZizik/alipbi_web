@@ -69,6 +69,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 .imageWrapper {
+  pointer-events: all;
   display: flex;
   align-items: center;
   margin: 0 auto;
