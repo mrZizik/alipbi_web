@@ -205,21 +205,21 @@ function checkDirection() {
 
   if (gestureEndTime - gestureStartTime < 500) {
     if (Math.abs(diffX) < Math.abs(diffY)) {
-      if (diffY < 0) {
+      if (diffY < -60) {
         gestureUp();
       }
 
-      if (diffY > 0) {
+      if (diffY > 60) {
         gestureDown();
       }
     }
 
     if (Math.abs(diffY) < Math.abs(diffX)) {
-      if (diffX < 0) {
+      if (diffX < -60) {
         gestureLeft();
       }
 
-      if (diffX > 0) {
+      if (diffX > 60) {
         gestureRight();
       }
     }
@@ -291,6 +291,7 @@ function clickLetter(index) {
   $(".singleLetterWrapper").append(getLetterHtmlPage(index));
   $(".letterBackButton").show();
   $(".outer").show();
+  $(".backButton").show();
   isMain = false;
   currentLetterIndex = index;
 }

@@ -35,7 +35,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 .backButton {
   display: none;
-  margin: 10px;
+  margin-left: 20px;
+  margin-top: 25px;
 }
 
 .button {
@@ -109,6 +110,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   left: 0;
   height: 100%;
   width: 100%;
+  pointer-events: none;
 }
 
 .middle {

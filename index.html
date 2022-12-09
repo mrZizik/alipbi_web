@@ -21,7 +21,7 @@
     console.log(navigator)
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('service-worker.js')
+            navigator.serviceWorker.register('servic-worker.js')
                 .then((reg) => {
                     console.log('Service worker registered.', reg);
                 });
@@ -38,10 +38,11 @@
     <div class="singleLetter">
         <div class="outer" style="pointer-event:none">
             <div class="middle">
-                <div class="singleLetterWrapper"></div>
+                <div class="singleLetterWrapper" onclick="imageClick()"></div>
             </div>
         </div>
     </div>
+    <img class="infoBackButton backButton" src="img/back.png" onclick="backClicked()" />
 </body>
 
 </html>
