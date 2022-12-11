@@ -199,6 +199,17 @@ let touchendY = 0;
 let gestureStartTime = 0;
 let gestureEndTime = 0;
 
+document.onkeydown = function (e) {
+  switch (e.keyCode) {
+    case 37:
+      gestureRight();
+      break;
+    case 39:
+      gestureLeft();
+      break;
+  }
+};
+
 function checkDirection() {
   const diffX = touchendX - touchstartX;
   const diffY = touchendY - touchstartY;
@@ -249,7 +260,7 @@ function gestureLeft() {
     rotateClicked();
   } else {
     if (currentLetterIndex != -1) {
-      if (currentLetterIndex >= 0) {
+      if (currentLetterIndex != letters.length - 1) {
         clickLetter(currentLetterIndex + 1);
       } else {
         clickLetter(0);
