@@ -207,6 +207,12 @@ document.onkeydown = function (e) {
     case 39:
       gestureLeft();
       break;
+    case 27:
+      backClicked();
+      break;
+    case 32:
+      rotateClicked();
+      break;
   }
 };
 
