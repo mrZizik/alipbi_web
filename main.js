@@ -54,9 +54,9 @@ let indicator;
 
 
 function init() {
-document.addEventListener('contextmenu', (e) => {
-  return false;
-});
+  document.addEventListener('contextmenu', (e) => {
+    return false;
+  });
 
   alphabetWrapper = document.getElementById('alphabetWrapper');
   singleLetterWrapper = document.getElementById('singleLetterWrapper');
@@ -86,47 +86,47 @@ document.addEventListener('contextmenu', (e) => {
     clickLetter(idx);
   });
 
-let longPressTimer;
+  let longPressTimer;
 
-alphabetWrapper.addEventListener('touchstart', (e) => {
-  if (!e.touches || e.touches.length === 0) return;
-  const x = e.touches[0].clientX;
-  const y = e.touches[0].clientY;
+  alphabetWrapper.addEventListener('touchstart', (e) => {
+  //  if (!e.touches || e.touches.length === 0) return;
+  //   const x = e.touches[0].clientX;
+  //   const y = e.touches[0].clientY;
 
-  // создаём индикатор
-  const indicator = document.createElement('div');
-  indicator.className = 'long-press-indicator';
-  indicator.style.left = `${x - 25}px`;
-  indicator.style.top = `${y - 25}px`;
-  document.body.appendChild(indicator);
+  //   // создаём индикатор
+  //   const indicator = document.createElement('div');
+  //   indicator.className = 'long-press-indicator';
+  //   indicator.style.left = `${x - 25}px`;
+  //   indicator.style.top = `${y - 25}px`;
+  //   document.body.appendChild(indicator);
 
-  requestAnimationFrame(() => {
-    indicator.style.transform = 'scale(1)';
-    indicator.style.opacity = '0.5';
+  //   requestAnimationFrame(() => {
+  //     indicator.style.transform = 'scale(1)';
+  //     indicator.style.opacity = '0.5';
+  //   }); 
+
+    longPressTimer = setTimeout(() => {
+      showHint('hintAlphabet');
+      localStorage.removeItem('hasSeenAlphabetHint');
+      localStorage.removeItem('hasSeenLetterHint');
+
+      // indicator.style.transform = 'scale(0)';
+      // indicator.style.opacity = '0';
+      // indicator.addEventListener('transitionend', () => indicator.remove(), { once: true });
+
+      setTimeout(() => indicator.remove(), 500);
+    }, 700);
   });
 
-  longPressTimer = setTimeout(() => {
-    showHint('hintAlphabet');
-    localStorage.removeItem('hasSeenAlphabetHint');
-    localStorage.removeItem('hasSeenLetterHint');
+  // alphabetWrapper.addEventListener('touchend', () => {
+  //   indicator.remove()
+  //   clearTimeout(longPressTimer);
+  // });
 
-    indicator.style.transform = 'scale(0)';
-    indicator.style.opacity = '0';
-    indicator.addEventListener('transitionend', () => indicator.remove(), { once: true });
-
-    setTimeout(() => indicator.remove(), 500);
-  }, 700);
-});
-
-alphabetWrapper.addEventListener('touchend', () => {
-  clearTimeout(longPressTimer);
-  indicator.remove()
-});
-
-alphabetWrapper.addEventListener('touchcancel', () => {
-  clearTimeout(longPressTimer);
-    indicator.remove()
-});
+  // alphabetWrapper.addEventListener('touchcancel', () => {
+  //   indicator.remove()
+  //   clearTimeout(longPressTimer);
+  // });
 
   // На случай мыши (desktop)
   alphabetWrapper.addEventListener('mousedown', (e) => {
