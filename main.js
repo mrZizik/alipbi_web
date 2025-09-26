@@ -142,7 +142,7 @@ function generateAlphabet() {
     img.alt = `${capitalizeFirstLetter(letters[i])}`;
     img.loading = 'lazy';
     btn.appendChild(img);
-    
+
       const localBack = document.getElementById('letterBackButton') || document.getElementById('globalBackButton');
   if (localBack) localBack.style.display = 'none';
 
@@ -190,93 +190,72 @@ function buildLetterPage(index) {
   singleLetterWrapper.appendChild(hWord);
 }
 
-// Показывает экран буквы
 function clickLetter(index) {
   if (!Number.isFinite(index) || index < 0 || index >= letters.length) return;
 
-  // останов предыдущего звука
   if (currentLetterIndex !== -1 && sounds[currentLetterIndex]) {
     try { sounds[currentLetterIndex].pause(); sounds[currentLetterIndex].currentTime = 0; } catch(e){}
   }
 
   currentLetterIndex = index;
 
-  // построй страницу буквы
   buildLetterPage(index);
 
-  // спрячем основную сетку
   if (alphabetWrapper) alphabetWrapper.style.display = 'none';
 
-  // покажем модалку .singleLetter
   if (singleLetterEl) {
     singleLetterEl.classList.add('show');
     singleLetterEl.setAttribute('aria-hidden', 'false');
   }
 
-  // включаем pointer-events у оверлея (если у вас управление через класс, оставьте только class)
   if (outerEl) {
     outerEl.classList.add('show');
     outerEl.style.pointerEvents = 'auto';
   }
 
-  // покажем кнопку "назад" (если есть)
   const localBack = document.getElementById('letterBackButton');
   if (localBack) localBack.style.display = '';
 
-  // фон страницы под модалкой — по цвету буквы
   document.body.style.background = colors[index] || '#fff';
 
   isMain = false;
 
-  // даём браузеру отрисовать модалку, затем запускаем звук
   requestAnimationFrame(() => {
     playSound(index).catch(()=>{});
   });
 }
 
-// Скрывает экран буквы и гарантированно очищает состояние
 function backClicked() {
-  // остановим звук
   if (currentLetterIndex !== -1 && sounds[currentLetterIndex]) {
     try { sounds[currentLetterIndex].pause(); sounds[currentLetterIndex].currentTime = 0; } catch(e){}
   }
 
   currentLetterIndex = -1;
 
-  // скрыть модалку
   if (singleLetterEl) {
     singleLetterEl.classList.remove('show');
     singleLetterEl.setAttribute('aria-hidden', 'true');
-    // на случай, если ранее ставили inline display
     singleLetterEl.style.display = '';
   }
 
-  // скрыть overlay/outer и отключить pointer-events
   if (outerEl) {
     outerEl.classList.remove('show');
     outerEl.style.pointerEvents = 'none';
   }
 
-  // очистить содержимое контейнера буквы
   if (singleLetterWrapper) {
     singleLetterWrapper.innerHTML = '';
   }
 
-  // восстановить фон страницы
   document.body.style.background = '#fff';
 
-  // показать основную сетку
   if (alphabetWrapper) {
     alphabetWrapper.style.display = '';
-    // на всякий случай убираем класс flipped если он мешает
-    // alphabetWrapper.classList.remove('flipped');
   }
 
-  // скрыть все back buttons
   const localBack = document.getElementById('letterBackButton') || document.getElementById('globalBackButton');
   if (localBack) localBack.style.display = 'none';
 
-  // скрыть manual-play если есть
   try {
     const manual = singleLetterWrapper && singleLetterWrapper.querySelector('.manual-play');
     if (manual) manual.style.display = 'none';
@@ -284,7 +263,6 @@ function backClicked() {
 
   isMain = true;
 
-  // force reflow to avoid visual artifacts
   void document.body.offsetHeight;
 }
 
@@ -292,7 +270,6 @@ function imageClick() {
   if (currentLetterIndex === -1) return;
   const s = sounds[currentLetterIndex];
   if (!s) return;
-  // перезапустить
   try { s.pause(); s.currentTime = 0; } catch (e) {}
   s.play().catch(() => {
     showManualPlayButton();

@@ -20,8 +20,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 .alphabetWrapper {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* мобильный экран */
-  grid-auto-rows: 120px; /* высота ячейки под картинку */
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 120px;
   grid-gap: 3px;
 }
 
@@ -34,10 +34,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   padding: 5px;
   box-sizing: border-box;
   
-  border: none;           /* убираем черную обводку */
-  border-radius: 8px;    /* скругление углов */
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* лёгкая тень для "elevation" */
-  transition: transform 0.2s, box-shadow 0.2s; /* для анимации при hover */
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .letter:hover {
@@ -48,29 +48,24 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 .letter img.image {
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain;  /* картинка полностью влезает */
-  border-radius: 8px;   /* слегка скругляем картинку внутри блока */
+  object-fit: contain;
+  border-radius: 8px;
 }
 
-/* ------- Надёжная модалка для singleLetter ------- */
-
-/* корень модалки: занимает весь экран, скрыт по умолчанию */
 .singleLetter {
   position: fixed;
-  inset: 0;                 /* top:0; right:0; bottom:0; left:0 */
-  display: none;            /* показываем через .singleLetter.show */
+  inset: 0;
+  display: none;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  background: rgba(0,0,0,0.35); /* полупрозрачный фон по желанию */
+  background: rgba(0,0,0,0.35);
 }
 
-/* когда нужно показать — flex центрирование */
 .singleLetter.show {
   display: flex;
 }
 
-/* outer как вспомогательный слой — pointer-events контролируем через класс */
 .outer {
   position: absolute;
   inset: 0;
@@ -81,7 +76,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   display: flex;
 }
 
-/* middle просто центрирует контент */
 .middle {
   width: 100%;
   display: flex;
@@ -89,16 +83,14 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   justify-content: center;
 }
 
-/* сам контейнер контента: гарантия ширины и ограничение максимума */
 .singleLetterWrapper {
   width: 100%;
-  max-width: 900px; /* настройте под дизайн */
+  max-width: 900px; 
   box-sizing: border-box;
   padding: 16px;
-  background: transparent; /* если хотите фон внутри */
+  background: transparent; 
 }
 
-/* изображение и блоки внутри */
 .imageWrapper {
   width: 100%;
   display: flex;
@@ -110,7 +102,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   display: block;
 }
 
-/* ensure large letters wrap nicely */
 .fullLetter, .fullText {
   text-align: center;
   margin: 8px 0;
@@ -125,7 +116,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   border: none;
   padding: 6px;
   cursor: pointer;
-  z-index: 2000; /* поверх всего */
+  z-index: 2000; 
 }
 
 .letterBackButton img {
