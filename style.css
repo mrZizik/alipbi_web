@@ -32,7 +32,7 @@ img {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .controls {

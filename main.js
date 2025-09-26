@@ -54,6 +54,10 @@ let indicator;
 
 
 function init() {
+document.addEventListener('contextmenu', (e) => {
+  return false;
+});
+
   alphabetWrapper = document.getElementById('alphabetWrapper');
   singleLetterWrapper = document.getElementById('singleLetterWrapper');
   outerEl = document.getElementById('outer');
