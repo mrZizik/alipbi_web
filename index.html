@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,8 +23,52 @@
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
 </head>
+
 <body>
   <main>
+    <div id="hintAlphabet" class="hintOverlay">
+      <div class="hintContent">
+        <div class="hintItem">
+          <img src="img/tap-gesture.gif" alt="Тап по букве" />
+          <p>Тап на букву: проиграть звук</p>
+        </div>
+        <div class="hintItem">
+          <img src="img/drag-left.gif" alt="Свайп влево" />
+          <p>Свайп влево: смена вида между буквами и картинками</p>
+        </div>
+        <div class="hintItem">
+          <img src="img/drag-right.gif" alt="Свайп вправо" />
+          <p>Свайп вправо: информация о сайте и контакты</p>
+        </div>
+        <div class="hintItem">
+          <img src="img/tap-gesture.gif" alt="Тап по букве" />
+          <p>Долгий тап: открыть подсказку снова</p>
+        </div>
+        <button class="hintClose" onclick="closeHint('hintAlphabet')">Понятно</button>
+      </div>
+    </div>
+
+    <div id="hintSingleLetter" class="hintOverlay">
+      <div class="hintContent">
+        <div class="hintItem">
+          <img src="img/drag-left.gif" alt="Свайп влево" />
+          <p>Свайп влево: предыдущая буква</p>
+        </div>
+        <div class="hintItem">
+          <img src="img/drag-right.gif" alt="Свайп вправо" />
+          <p>Свайп вправо: следующая буква</p>
+        </div>
+        <div class="hintItem">
+          <img src="img/tap-gesture.gif" alt="Тап по букве" />
+          <p>Тап на экран: повтор звука</p>
+        </div>
+        <div class="hintItem">
+          <img src="img/scroll-down-gesture.gif" alt="Свайп вниз" />
+          <p>Свайп вниз: переход на экран алфавита</p>
+        </div>
+        <button class="hintClose" onclick="closeHint('hintSingleLetter')">Понятно</button>
+      </div>
+    </div>
     <section id="alphabetWrapper" class="alphabetWrapper" aria-label="Алфавит" role="list"></section>
 
     <div class="singleLetter" id="singleLetter" aria-hidden="true">
@@ -35,8 +80,8 @@
     </div>
 
     <button id="letterBackButton" class="letterBackButton" aria-label="Назад">
-  <img src="img/back.png" alt="Назад" />
-</button>
+      <img src="img/back.png" alt="Назад" />
+    </button>
   </main>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer></script>
@@ -44,12 +89,13 @@
 
   <script>
     if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js')
-      .then(reg => console.log('SW registered', reg))
-      .catch(err => console.warn('SW reg failed', err));
-  });
-}
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(reg => console.log('SW registered', reg))
+          .catch(err => console.warn('SW reg failed', err));
+      });
+    }
   </script>
 </body>
+
 </html>
