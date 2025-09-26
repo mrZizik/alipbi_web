@@ -52,7 +52,11 @@ function init() {
   outerEl = document.getElementById('outer');
   singleLetterEl = document.getElementById('singleLetter');
   toggleViewBtn = document.getElementById('toggleView');
-  globalBackButton = document.getElementById('globalBackButton');
+const letterBackButton = document.getElementById('letterBackButton');
+  
+  if (letterBackButton) {
+    letterBackButton.addEventListener('click', backClicked);
+  }
 
   if (!alphabetWrapper) {
     console.warn('alphabetWrapper not found in DOM');
@@ -86,10 +90,6 @@ function init() {
       rotateClicked();
       toggleViewBtn.setAttribute('aria-pressed', String(!isImages));
     });
-  }
-
-  if (globalBackButton) {
-    globalBackButton.addEventListener('click', backClicked);
   }
 
   document.addEventListener('touchstart', (e) => {
@@ -142,6 +142,9 @@ function generateAlphabet() {
     img.alt = `${capitalizeFirstLetter(letters[i])}`;
     img.loading = 'lazy';
     btn.appendChild(img);
+    
+      const localBack = document.getElementById('letterBackButton') || document.getElementById('globalBackButton');
+  if (localBack) localBack.style.display = 'none';
 
     const textEl = document.createElement('span');
     textEl.className = 'text';
@@ -185,34 +188,104 @@ function buildLetterPage(index) {
   hWord.className = 'fullText';
   hWord.textContent = capitalizeFirstLetter(words[index] || '');
   singleLetterWrapper.appendChild(hWord);
-
-  const playBtn = document.createElement('button');
-  playBtn.type = 'button';
-  playBtn.className = 'manual-play';
-  playBtn.textContent = '▶︎ Воспроизвести';
-  playBtn.style.display = 'none';
-  singleLetterWrapper.appendChild(playBtn);
 }
 
+// Показывает экран буквы
 function clickLetter(index) {
   if (!Number.isFinite(index) || index < 0 || index >= letters.length) return;
 
+  // останов предыдущего звука
   if (currentLetterIndex !== -1 && sounds[currentLetterIndex]) {
-    try { sounds[currentLetterIndex].pause(); sounds[currentLetterIndex].currentTime = 0; } catch (e) {}
+    try { sounds[currentLetterIndex].pause(); sounds[currentLetterIndex].currentTime = 0; } catch(e){}
   }
 
+  currentLetterIndex = index;
+
+  // построй страницу буквы
   buildLetterPage(index);
 
+  // спрячем основную сетку
   if (alphabetWrapper) alphabetWrapper.style.display = 'none';
-  if (outerEl) outerEl.classList.add('show');
-  if (singleLetterEl) singleLetterEl.setAttribute('aria-hidden', 'false');
-  if (globalBackButton) globalBackButton.style.display = ''; // показать
+
+  // покажем модалку .singleLetter
+  if (singleLetterEl) {
+    singleLetterEl.classList.add('show');
+    singleLetterEl.setAttribute('aria-hidden', 'false');
+  }
+
+  // включаем pointer-events у оверлея (если у вас управление через класс, оставьте только class)
+  if (outerEl) {
+    outerEl.classList.add('show');
+    outerEl.style.pointerEvents = 'auto';
+  }
+
+  // покажем кнопку "назад" (если есть)
+  const localBack = document.getElementById('letterBackButton');
+  if (localBack) localBack.style.display = '';
+
+  // фон страницы под модалкой — по цвету буквы
   document.body.style.background = colors[index] || '#fff';
 
-  currentLetterIndex = index;
   isMain = false;
 
-  playSound(index).catch(()=>{});
+  // даём браузеру отрисовать модалку, затем запускаем звук
+  requestAnimationFrame(() => {
+    playSound(index).catch(()=>{});
+  });
+}
+
+// Скрывает экран буквы и гарантированно очищает состояние
+function backClicked() {
+  // остановим звук
+  if (currentLetterIndex !== -1 && sounds[currentLetterIndex]) {
+    try { sounds[currentLetterIndex].pause(); sounds[currentLetterIndex].currentTime = 0; } catch(e){}
+  }
+
+  currentLetterIndex = -1;
+
+  // скрыть модалку
+  if (singleLetterEl) {
+    singleLetterEl.classList.remove('show');
+    singleLetterEl.setAttribute('aria-hidden', 'true');
+    // на случай, если ранее ставили inline display
+    singleLetterEl.style.display = '';
+  }
+
+  // скрыть overlay/outer и отключить pointer-events
+  if (outerEl) {
+    outerEl.classList.remove('show');
+    outerEl.style.pointerEvents = 'none';
+  }
+
+  // очистить содержимое контейнера буквы
+  if (singleLetterWrapper) {
+    singleLetterWrapper.innerHTML = '';
+  }
+
+  // восстановить фон страницы
+  document.body.style.background = '#fff';
+
+  // показать основную сетку
+  if (alphabetWrapper) {
+    alphabetWrapper.style.display = '';
+    // на всякий случай убираем класс flipped если он мешает
+    // alphabetWrapper.classList.remove('flipped');
+  }
+
+  // скрыть все back buttons
+  const localBack = document.getElementById('letterBackButton') || document.getElementById('globalBackButton');
+  if (localBack) localBack.style.display = 'none';
+
+  // скрыть manual-play если есть
+  try {
+    const manual = singleLetterWrapper && singleLetterWrapper.querySelector('.manual-play');
+    if (manual) manual.style.display = 'none';
+  } catch(e){}
+
+  isMain = true;
+
+  // force reflow to avoid visual artifacts
+  void document.body.offsetHeight;
 }
 
 function imageClick() {
@@ -224,20 +297,6 @@ function imageClick() {
   s.play().catch(() => {
     showManualPlayButton();
   });
-}
-
-function backClicked() {
-  if (currentLetterIndex !== -1 && sounds[currentLetterIndex]) {
-    try { sounds[currentLetterIndex].pause(); sounds[currentLetterIndex].currentTime = 0; } catch (e) {}
-  }
-  currentLetterIndex = -1;
-  if (outerEl) outerEl.classList.remove('show');
-  if (singleLetterEl) singleLetterEl.setAttribute('aria-hidden', 'true');
-  if (alphabetWrapper) alphabetWrapper.style.display = '';
-  if (globalBackButton) globalBackButton.style.display = 'none';
-  document.body.style.background = '#fff';
-  singleLetterWrapper.innerHTML = '';
-  isMain = true;
 }
 
 function rotateClicked() {

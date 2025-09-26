@@ -24,25 +24,19 @@
 </head>
 <body>
   <main>
-    <div class="controls" style="padding:12px;">
-      <button id="toggleView" type="button" aria-pressed="false" aria-label="Перевернуть / показать буквы">
-        Перевернуть
-      </button>
-    </div>
-
     <section id="alphabetWrapper" class="alphabetWrapper" aria-label="Алфавит" role="list"></section>
 
     <div class="singleLetter" id="singleLetter" aria-hidden="true">
-      <div class="outer" id="outer" style="pointer-events: none;">
+      <div class="outer" id="outer">
         <div class="middle">
           <div class="singleLetterWrapper" id="singleLetterWrapper"></div>
         </div>
       </div>
     </div>
 
-    <button id="globalBackButton" class="infoBackButton backButton" aria-label="Назад" style="display:none;">
-      <img src="img/back.png" alt="Назад" />
-    </button>
+    <button id="letterBackButton" class="letterBackButton" aria-label="Назад">
+  <img src="img/back.png" alt="Назад" />
+</button>
   </main>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer></script>
