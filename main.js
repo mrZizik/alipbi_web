@@ -118,15 +118,13 @@ function init() {
     }, 700);
   });
 
-  // alphabetWrapper.addEventListener('touchend', () => {
-  //   indicator.remove()
-  //   clearTimeout(longPressTimer);
-  // });
+  alphabetWrapper.addEventListener('touchend', () => {
+    clearTimeout(longPressTimer);
+  });
 
-  // alphabetWrapper.addEventListener('touchcancel', () => {
-  //   indicator.remove()
-  //   clearTimeout(longPressTimer);
-  // });
+  alphabetWrapper.addEventListener('touchcancel', () => {
+    clearTimeout(longPressTimer);
+  });
 
   // На случай мыши (desktop)
   alphabetWrapper.addEventListener('mousedown', (e) => {
@@ -185,9 +183,6 @@ function init() {
       imageClick();
     }
   });
-
-  // Показ hint по ID
-
 
   document.addEventListener('DOMContentLoaded', () => {
     if (!(localStorage.getItem('hasSeenAlphabetHint') === 'true')) {
