@@ -10,12 +10,58 @@ const symbols = [
   "ch", "ch1", "ch11", "sh", "sh1", "e", "ya",
 ];
 
-const colors = [
-  "#7CD0FF", "#FF6F00", "#70DB72", "#e57373", "#BA68C8", "#4DB6AC", "#2196F3", "#4CAF50", "#8D6E63",
-  "#AFB42B", "#7986CB", "#F06292", "#81C784", "#9575CD", "#29B6F6", "#e57373", "#FF8A65", "#4DB6AC",
-  "#AFB42B", "#42A5F5", "#66BB6A", "#2196F3", "#9C27B0", "#8d6e12", "#ef5350", "#AB47BC", "#26A69A",
-  "#78909C", "#8D6E63", "#e57373", "#42A5F5", "#e57373", "#26A69A", "#5C6BC0", "#66BB6A", "#757575",
-  "#795548", "#10519b", "#607D8B", "#F06292", "#21566A", "#81C784", "#A1887F", "#AB47BC",
+// const colors = [
+//   "#7CD0FF", "#FF6F00", "#70DB72", "#e57373", "#BA68C8", "#4DB6AC", "#2196F3", "#4CAF50", "#8D6E63",
+//   "#AFB42B", "#7986CB", "#F06292", "#81C784", "#9575CD", "#29B6F6", "#e57373", "#FF8A65", "#4DB6AC",
+//   "#AFB42B", "#42A5F5", "#66BB6A", "#2196F3", "#9C27B0", "#8d6e12", "#ef5350", "#AB47BC", "#26A69A",
+//   "#78909C", "#8D6E63", "#e57373", "#42A5F5", "#e57373", "#26A69A", "#5C6BC0", "#66BB6A", "#757575",
+//   "#795548", "#10519b", "#607D8B", "#F06292", "#21566A", "#81C784", "#A1887F", "#AB47BC",
+// ];
+const letterStyles = [
+  { background: "#7CD0FF", letter: "#FFFFFF", stroke: "#001F33" },
+  { background: "#FF6F00", letter: "#FFFFFF", stroke: "#662200" },
+  { background: "#70DB72", letter: "#FFFFFF", stroke: "#145214" },
+  { background: "#e57373", letter: "#FFFFFF", stroke: "#800000" },
+  { background: "#BA68C8", letter: "#FFFFFF", stroke: "#4B0073" },
+  { background: "#4DB6AC", letter: "#FFFFFF", stroke: "#004D40" },
+  { background: "#2196F3", letter: "#FFFFFF", stroke: "#002F66" },
+  { background: "#4CAF50", letter: "#FFFFFF", stroke: "#1B5E20" },
+  { background: "#8D6E63", letter: "#FFFFFF", stroke: "#3E2723" },
+  { background: "#AFB42B", letter: "#FFFFFF", stroke: "#666600" },
+  { background: "#7986CB", letter: "#FFFFFF", stroke: "#1A237E" },
+  { background: "#F06292", letter: "#FFFFFF", stroke: "#880E4F" },
+  { background: "#81C784", letter: "#FFFFFF", stroke: "#1B5E20" },
+  { background: "#9575CD", letter: "#FFFFFF", stroke: "#311B92" },
+  { background: "#29B6F6", letter: "#FFFFFF", stroke: "#001F33" },
+  { background: "#e57373", letter: "#FFFFFF", stroke: "#800000" },
+  { background: "#FF8A65", letter: "#FFFFFF", stroke: "#BF360C" },
+  { background: "#4DB6AC", letter: "#FFFFFF", stroke: "#004D40" },
+  { background: "#AFB42B", letter: "#FFFFFF", stroke: "#666600" },
+  { background: "#42A5F5", letter: "#FFFFFF", stroke: "#002F66" },
+  { background: "#66BB6A", letter: "#FFFFFF", stroke: "#145214" },
+  { background: "#2196F3", letter: "#FFFFFF", stroke: "#002F66" },
+  { background: "#9C27B0", letter: "#FFFFFF", stroke: "#4A148C" },
+  { background: "#8d6e12", letter: "#FFFFFF", stroke: "#4B3E00" },
+  { background: "#ef5350", letter: "#FFFFFF", stroke: "#800000" },
+  { background: "#AB47BC", letter: "#FFFFFF", stroke: "#4A148C" },
+  { background: "#26A69A", letter: "#FFFFFF", stroke: "#004D40" },
+  { background: "#78909C", letter: "#FFFFFF", stroke: "#263238" },
+  { background: "#8D6E63", letter: "#FFFFFF", stroke: "#3E2723" },
+  { background: "#e57373", letter: "#FFFFFF", stroke: "#800000" },
+  { background: "#42A5F5", letter: "#FFFFFF", stroke: "#002F66" },
+  { background: "#e57373", letter: "#FFFFFF", stroke: "#800000" },
+  { background: "#26A69A", letter: "#FFFFFF", stroke: "#004D40" },
+  { background: "#5C6BC0", letter: "#FFFFFF", stroke: "#1A237E" },
+  { background: "#66BB6A", letter: "#FFFFFF", stroke: "#145214" },
+  { background: "#757575", letter: "#FFFFFF", stroke: "#212121" },
+  { background: "#795548", letter: "#FFFFFF", stroke: "#3E2723" },
+  { background: "#10519b", letter: "#FFFFFF", stroke: "#002171" },
+  { background: "#607D8B", letter: "#FFFFFF", stroke: "#263238" },
+  { background: "#F06292", letter: "#FFFFFF", stroke: "#880E4F" },
+  { background: "#21566A", letter: "#FFFFFF", stroke: "#002633" },
+  { background: "#81C784", letter: "#FFFFFF", stroke: "#1B5E20" },
+  { background: "#A1887F", letter: "#FFFFFF", stroke: "#3E2723" },
+  { background: "#AB47BC", letter: "#FFFFFF", stroke: "#4A148C" },
 ];
 
 const words = [
@@ -217,7 +263,7 @@ function generateAlphabet() {
     btn.className = 'letter';
     btn.dataset.index = String(i);
     btn.setAttribute('role', 'listitem');
-    const bg = colors[i] || '#ddd';
+    const bg = letterStyles[i].background || '#ddd';
     btn.style.background = bg;
     btn.setAttribute('aria-label', `Буква ${capitalizeFirstLetter(letters[i])}`);
 
@@ -241,7 +287,11 @@ function generateAlphabet() {
     const overlay = document.createElement('span');
     overlay.className = 'overlayLetter';
     overlay.setAttribute('aria-hidden', 'true');
-    overlay.textContent = capitalizeFirstLetter(letters[i]); // большая полупрозрачная буква
+    overlay.textContent = capitalizeFirstLetter(letters[i]); 
+    overlay.style.color = letterStyles[i].letter;
+    overlay.style.webkitTextStroke = `1px ${letterStyles[i].stroke}`;
+    overlay.style.textStroke = `1px ${letterStyles[i].stroke}`;
+
     btn.appendChild(overlay);
 
     alphabetWrapper.appendChild(btn);
@@ -308,7 +358,7 @@ function clickLetter(index) {
   const localBack = document.getElementById('letterBackButton');
   if (localBack) localBack.style.display = '';
 
-  document.body.style.background = colors[index] || '#fff';
+  document.body.style.background = letterStyles[index].background || '#fff';
 
   isMain = false;
 
