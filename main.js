@@ -10,13 +10,6 @@ const symbols = [
   "ch", "ch1", "ch11", "sh", "sh1", "e", "ya",
 ];
 
-// const colors = [
-//   "#7CD0FF", "#FF6F00", "#70DB72", "#e57373", "#BA68C8", "#4DB6AC", "#2196F3", "#4CAF50", "#8D6E63",
-//   "#AFB42B", "#7986CB", "#F06292", "#81C784", "#9575CD", "#29B6F6", "#e57373", "#FF8A65", "#4DB6AC",
-//   "#AFB42B", "#42A5F5", "#66BB6A", "#2196F3", "#9C27B0", "#8d6e12", "#ef5350", "#AB47BC", "#26A69A",
-//   "#78909C", "#8D6E63", "#e57373", "#42A5F5", "#e57373", "#26A69A", "#5C6BC0", "#66BB6A", "#757575",
-//   "#795548", "#10519b", "#607D8B", "#F06292", "#21566A", "#81C784", "#A1887F", "#AB47BC",
-// ];
 const letterStyles = [
   { background: "#7CD0FF", letter: "#FFFFFF", stroke: "#001F33" },
   { background: "#FF6F00", letter: "#FFFFFF", stroke: "#662200" },
@@ -66,8 +59,7 @@ const letterStyles = [
 
 const words = [
   "артанди", "беле", "ваша", "гигицо", "г1ама", "гьерк11ва", "гъане", "диду", "жужука", "ж1ванж1ва",
-  "зини", "иссо", "кене", "к1анча", "к11ара", "кьанк1ала", "кь1ала", "къамер", "лалу", "лъабда",
-  "л1орл1ол", "милъе", "нихьва", "осхъел", "пера", "рак1ьар", "солосоло", "тупе", "т1анса", "унса",
+  "зини", "иссо", "кене", "к1анча", "к11ара", "кьанк1ала", "кь1ала", "къамер", "лалу", "л1орл1ол", "лъабда", "милъе", "нихьва", "осхъел", "пера", "рак1ьар", "солосоло", "тупе", "т1анса", "унса",
   "хабу", "х1антала", "хъоча", "хьване", "ццицци", "ц1ай", "ц11ибиль", "чане", "ч1ант1а",
   "ч11инч11иль", "шарбал", "щакибо", "эрхьу", "яше",
 ];
@@ -289,8 +281,8 @@ function generateAlphabet() {
     overlay.setAttribute('aria-hidden', 'true');
     overlay.textContent = capitalizeFirstLetter(letters[i]); 
     overlay.style.color = letterStyles[i].letter;
-    overlay.style.webkitTextStroke = `1px ${letterStyles[i].stroke}`;
-    overlay.style.textStroke = `1px ${letterStyles[i].stroke}`;
+    overlay.style.webkitTextStroke = `0.6px ${letterStyles[i].stroke}`;
+    overlay.style.textStroke = `0.6px ${letterStyles[i].stroke}`;
 
     btn.appendChild(overlay);
 
