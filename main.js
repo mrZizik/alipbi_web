@@ -19,7 +19,7 @@ const colors = [
 ];
 
 const words = [
-  "артанди", "беле", "ваша", "гигицо", "г1ама", "гьерк11ва", "гъане", "дидин", "жужука", "ж1ванж1ва",
+  "артанди", "беле", "ваша", "гигицо", "г1ама", "гьерк11ва", "гъане", "диду", "жужука", "ж1ванж1ва",
   "зини", "иссо", "кене", "к1анча", "к11ара", "кьанк1ала", "кь1ала", "къамер", "лалу", "лъабда",
   "л1орл1ол", "милъе", "нихьва", "осхъел", "пера", "рак1ьар", "солосоло", "тупе", "т1анса", "унса",
   "хабу", "х1антала", "хъоча", "хьване", "ццицци", "ц1ай", "ц11ибиль", "чане", "ч1ант1а",
@@ -89,32 +89,12 @@ function init() {
   let longPressTimer;
 
   alphabetWrapper.addEventListener('touchstart', (e) => {
-  //  if (!e.touches || e.touches.length === 0) return;
-  //   const x = e.touches[0].clientX;
-  //   const y = e.touches[0].clientY;
-
-  //   // создаём индикатор
-  //   const indicator = document.createElement('div');
-  //   indicator.className = 'long-press-indicator';
-  //   indicator.style.left = `${x - 25}px`;
-  //   indicator.style.top = `${y - 25}px`;
-  //   document.body.appendChild(indicator);
-
-  //   requestAnimationFrame(() => {
-  //     indicator.style.transform = 'scale(1)';
-  //     indicator.style.opacity = '0.5';
-  //   }); 
+    touchstartX = e.touches[0].clientX;
+    touchstartY = e.touches[0].clientY;
 
     longPressTimer = setTimeout(() => {
       showHint('hintAlphabet');
       localStorage.removeItem('hasSeenAlphabetHint');
-      localStorage.removeItem('hasSeenLetterHint');
-
-      // indicator.style.transform = 'scale(0)';
-      // indicator.style.opacity = '0';
-      // indicator.addEventListener('transitionend', () => indicator.remove(), { once: true });
-
-      setTimeout(() => indicator.remove(), 500);
     }, 700);
   });
 
@@ -125,6 +105,19 @@ function init() {
   alphabetWrapper.addEventListener('touchcancel', () => {
     clearTimeout(longPressTimer);
   });
+
+  alphabetWrapper.addEventListener("touchmove", (e) => {
+  if (!longPressTimer) return;
+
+  const dx = e.touches[0].clientX - touchstartX;
+  const dy = e.touches[0].clientY - touchstartY;
+  const distance = Math.sqrt(dx * dx + dy * dy);
+
+  if (distance > 15) {
+    clearTimeout(longPressTimer);
+    longPressTimer = null;
+  }
+});
 
   // На случай мыши (desktop)
   alphabetWrapper.addEventListener('mousedown', (e) => {
@@ -244,6 +237,12 @@ function generateAlphabet() {
     textEl.textContent = capitalizeFirstLetter(letters[i]);
     textEl.setAttribute('aria-hidden', 'true');
     btn.appendChild(textEl);
+
+    const overlay = document.createElement('span');
+    overlay.className = 'overlayLetter';
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.textContent = capitalizeFirstLetter(letters[i]); // большая полупрозрачная буква
+    btn.appendChild(overlay);
 
     alphabetWrapper.appendChild(btn);
 
